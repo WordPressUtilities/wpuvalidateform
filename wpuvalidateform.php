@@ -4,7 +4,7 @@
 Plugin Name: WPU Validate form
 Plugin URI: https://github.com/WordPressUtilities/wpuvalidateform
 Description: Form validation
-Version: 0.2
+Version: 0.3
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -79,19 +79,31 @@ class WPUValidateForm
 
                 case 'isnumeric':
                     if ($test_val !== false && !empty($val) && !is_numeric($val)) {
-                        $test_valid = 'Le champ "' . $key . '" devrait être un nombre';
+                        $test_valid = 'Le champ "' . $key . '" doit être un nombre';
                     }
                     break;
 
                 case 'isdate':
                     if ($test_val !== false && !empty($val) && !$this->isValidDate($val)) {
-                        $test_valid = 'Le champ "' . $key . '" devrait être une date au format AAAA-MM-JJ';
+                        $test_valid = 'Le champ "' . $key . '" doit être une date au format AAAA-MM-JJ';
                     }
                     break;
 
                 case 'isemail':
                     if ($test_val !== false && !empty($val) && !filter_var($val, FILTER_VALIDATE_EMAIL)) {
-                        $test_valid = 'Le champ "' . $key . '" devrait être un email';
+                        $test_valid = 'Le champ "' . $key . '" doit être un email';
+                    }
+                    break;
+
+                case 'isurl':
+                    if ($test_val !== false && !empty($val) && !filter_var($val, FILTER_VALIDATE_URL)) {
+                        $test_valid = 'Le champ "' . $key . '" doit être une URL';
+                    }
+                    break;
+
+                case 'iszipcode':
+                    if ($test_val !== false && !empty($val) && !preg_match('/^[0-9]{5}$/', $val)) {
+                        $test_valid = 'Le champ "' . $key . '" doit être un code postal';
                     }
                     break;
 
