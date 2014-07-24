@@ -1,9 +1,10 @@
 <?php
+
 /*
 Plugin Name: WPU Validate form
 Plugin URI: https://github.com/WordPressUtilities/wpuvalidateform
 Description: Form validation
-Version: 0.1
+Version: 0.2
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -78,13 +79,19 @@ class WPUValidateForm
 
                 case 'isnumeric':
                     if ($test_val !== false && !empty($val) && !is_numeric($val)) {
-                        $test_valid = '"' . $key . '" devrait être un nombre';
+                        $test_valid = 'Le champ "' . $key . '" devrait être un nombre';
                     }
                     break;
 
                 case 'isdate':
                     if ($test_val !== false && !empty($val) && !$this->isValidDate($val)) {
-                        $test_valid = '"' . $key . '" devrait être une date au format AAAA-MM-JJ';
+                        $test_valid = 'Le champ "' . $key . '" devrait être une date au format AAAA-MM-JJ';
+                    }
+                    break;
+
+                case 'isemail':
+                    if ($test_val !== false && !empty($val) && !filter_var($val, FILTER_VALIDATE_EMAIL)) {
+                        $test_valid = 'Le champ "' . $key . '" devrait être un email';
                     }
                     break;
 
