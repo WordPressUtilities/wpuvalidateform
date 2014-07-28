@@ -4,7 +4,7 @@
 Plugin Name: WPU Validate form
 Plugin URI: https://github.com/WordPressUtilities/wpuvalidateform
 Description: Form validation
-Version: 0.3.1
+Version: 0.3.2
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -70,40 +70,45 @@ class WPUValidateForm
                 break;
             }
 
+            $label_field = $key;
+            if(isset($tests['label'])){
+                $label_field = $tests['label'];
+            }
+
             switch ($test_id) {
                 case 'required':
                     if ($test_val !== false && empty($val)) {
-                        $test_valid = 'Le champ "' . $key . '" est requis';
+                        $test_valid = 'Le champ "' . $label_field . '" est requis';
                     }
                     break;
 
                 case 'isnumeric':
                     if ($test_val !== false && !empty($val) && !is_numeric($val)) {
-                        $test_valid = 'Le champ "' . $key . '" doit être un nombre';
+                        $test_valid = 'Le champ "' . $label_field . '" doit être un nombre';
                     }
                     break;
 
                 case 'isdate':
                     if ($test_val !== false && !empty($val) && !$this->isValidDate($val)) {
-                        $test_valid = 'Le champ "' . $key . '" doit être une date au format AAAA-MM-JJ';
+                        $test_valid = 'Le champ "' . $label_field . '" doit être une date au format AAAA-MM-JJ';
                     }
                     break;
 
                 case 'isemail':
                     if ($test_val !== false && !empty($val) && !filter_var($val, FILTER_VALIDATE_EMAIL)) {
-                        $test_valid = 'Le champ "' . $key . '" doit être un email';
+                        $test_valid = 'Le champ "' . $label_field . '" doit être un email';
                     }
                     break;
 
                 case 'isurl':
                     if ($test_val !== false && !empty($val) && !filter_var($val, FILTER_VALIDATE_URL)) {
-                        $test_valid = 'Le champ "' . $key . '" doit être une URL';
+                        $test_valid = 'Le champ "' . $label_field . '" doit être une URL';
                     }
                     break;
 
                 case 'iszipcode':
                     if ($test_val !== false && !empty($val) && !preg_match('/^[0-9]{5}$/', $val)) {
-                        $test_valid = 'Le champ "' . $key . '" doit être un code postal';
+                        $test_valid = 'Le champ "' . $label_field . '" doit être un code postal';
                     }
                     break;
 
@@ -131,4 +136,5 @@ class WPUValidateForm
         preg_match('/^(\d{4})[-\/](\d{2})[-\/](\d{2})$/', $date, $matches);
         return checkdate(intval($matches[2]) , intval($matches[3]) , intval($matches[1]));
     }
+
 }
