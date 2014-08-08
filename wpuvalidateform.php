@@ -4,7 +4,7 @@
 Plugin Name: WPU Validate form
 Plugin URI: https://github.com/WordPressUtilities/wpuvalidateform
 Description: Form validation
-Version: 0.3.2
+Version: 0.3.3
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -71,7 +71,7 @@ class WPUValidateForm
             }
 
             $label_field = $key;
-            if(isset($tests['label'])){
+            if (isset($tests['label'])) {
                 $label_field = $tests['label'];
             }
 
@@ -90,7 +90,7 @@ class WPUValidateForm
 
                 case 'isdate':
                     if ($test_val !== false && !empty($val) && !$this->isValidDate($val)) {
-                        $test_valid = 'Le champ "' . $label_field . '" doit être une date au format AAAA-MM-JJ';
+                        $test_valid = 'Le champ "' . $label_field . '" doit être une date au format JJ/MM/AAAA';
                     }
                     break;
 
@@ -103,6 +103,13 @@ class WPUValidateForm
                 case 'isurl':
                     if ($test_val !== false && !empty($val) && !filter_var($val, FILTER_VALIDATE_URL)) {
                         $test_valid = 'Le champ "' . $label_field . '" doit être une URL';
+                    }
+                    break;
+
+                case 'isfrssn':
+                    $pattern = '/^([12])([0-9]{2}(0[1-9]|1[0-2]))(2[AB]|[0-9]{2})([0-9]{6})([0-9]{2})?$/x';
+                    if ($test_val !== false && !empty($val) && !preg_match($pattern, $val)) {
+                        $test_valid = 'Le champ "' . $label_field . '" doit être un numéro de sécurité social valide';
                     }
                     break;
 
@@ -133,8 +140,7 @@ class WPUValidateForm
     }
 
     public function isValidDate($date) {
-        preg_match('/^(\d{4})[-\/](\d{2})[-\/](\d{2})$/', $date, $matches);
-        return checkdate(intval($matches[2]) , intval($matches[3]) , intval($matches[1]));
+        preg_match('/^(\d{2})\/(\d{2})\/(\d{4})$/', $date, $matches);
+        return checkdate(intval($matches[2]) , intval($matches[1]) , intval($matches[3]));
     }
-
 }
