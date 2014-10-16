@@ -4,7 +4,7 @@
 Plugin Name: WPU Validate form
 Plugin URI: https://github.com/WordPressUtilities/wpuvalidateform
 Description: Form validation
-Version: 0.3.3
+Version: 0.3.4
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -13,6 +13,7 @@ License URI: http://opensource.org/licenses/MIT
 
 class WPUValidateForm
 {
+    private $messages;
 
     public function validate_values_from($model_form, $source = false) {
         $this->has_errors = false;
@@ -28,8 +29,12 @@ class WPUValidateForm
             $val = '';
             $val_has_error = false;
 
+            if (!isset($tests['required']) || !is_bool($tests['required'])) {
+                $tests['required'] = false;
+            }
+
             // Check posted field
-            if (!array_key_exists($key, $source)) {
+            if (!array_key_exists($key, $source) && $tests['required']) {
                 $this->messages[] = array(
                     'type' => 'error',
                     'content' => 'Il manque le champ "' . $key . '"'
