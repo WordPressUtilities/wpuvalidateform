@@ -4,7 +4,7 @@
 Plugin Name: WPU Validate form
 Plugin URI: https://github.com/WordPressUtilities/wpuvalidateform
 Description: Form validation
-Version: 0.3.5
+Version: 0.3.6
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -94,6 +94,12 @@ class WPUValidateForm
                 case 'required':
                     if ($test_val !== false && empty($val)) {
                         $test_valid = 'Le champ "' . $label_field . '" est requis';
+                    }
+                    break;
+
+                case 'islogin':
+                    if ($test_val !== false && !empty($val) && !preg_match('/^([a-z0-9-]+)$/', $val)) {
+                        $test_valid = 'Le champ "' . $label_field . '" doit être un login valide ( lettres, chiffres et tirets uniquement ) ';
                     }
                     break;
 
