@@ -4,7 +4,7 @@
 Plugin Name: WPU Validate form
 Plugin URI: https://github.com/WordPressUtilities/wpuvalidateform
 Description: Form validation
-Version: 0.3.6
+Version: 0.3.7
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -52,7 +52,7 @@ class WPUValidateForm
                 $val_has_error = 1;
                 $this->has_errors = 1;
             } else {
-                $val = trim($source[$key]);
+                $val = isset($source[$key]) ? trim($source[$key]) : '';
             }
 
             if (!$val_has_error) {
