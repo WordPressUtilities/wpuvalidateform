@@ -4,7 +4,7 @@
 Plugin Name: WPU Validate form
 Plugin URI: https://github.com/WordPressUtilities/wpuvalidateform
 Description: Form validation
-Version: 0.3.7
+Version: 0.3.8
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -41,6 +41,12 @@ class WPUValidateForm
 
             if (!isset($tests['required']) || !in_array($tests['required'], $this->array_bool)) {
                 $tests['required'] = false;
+            }
+
+            if (isset($tests['isfile']) && $tests['isfile']) {
+                if (isset($_FILES[$key]) && is_uploaded_file($_FILES[$key]['tmp_name'])) {
+                    $source[$key] = $_FILES[$key]['tmp_name'];
+                }
             }
 
             // Check posted field
